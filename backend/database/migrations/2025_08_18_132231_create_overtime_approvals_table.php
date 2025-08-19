@@ -12,12 +12,13 @@ return new class extends Migration {
     {
         Schema::create('overtime_approvals', function (Blueprint $table) {
             $table->id();
-            $table->string('user_code');
-            $table->foreign('user_code')->references('user_code')->on('users');
-            $table->foreignId('overtime_request_id')->constrained('overtime_requests');
+            $table->string('approver_user_code');
+            $table->foreign('approver_user_code')->references('user_code')->on('users')->onDelete('cascade');
+            $table->foreignId('overtime_request_id')->constrained('overtime_requests')->onDelete('cascade');
             $table->string('action');
-            $table->text('comment');
-            $table->timestamp('submitted_at')->useCurrent();
+            $table->text('comment')->nullable();
+            $table->dateTime('submitted_at');
+            $table->timestamps();
         });
     }
 

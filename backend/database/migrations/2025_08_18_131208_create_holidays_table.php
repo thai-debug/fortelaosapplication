@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('holidays', function (Blueprint $table) {
             $table->id();
-            $table->date('holiday_date')->nullable();
-            $table->string('name')->nullable();
+            $table->date('holidays_date');
+            $table->string('name');
             $table->boolean('is_public')->default(true);
             $table->timestamps();
         });

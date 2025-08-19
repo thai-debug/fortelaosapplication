@@ -12,13 +12,14 @@ return new class extends Migration {
     {
         Schema::create('overtime_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('user_code');
-            $table->foreign('user_code')->references('user_code')->on('users');
+          $table->string('request_user_code');
+            $table->foreign('request_user_code')->references('user_code')->on('users')->onDelete('cascade');
             $table->date('date');
-            $table->time('hours');
+            $table->time('hours'); // Or use decimal if storing hours as float
             $table->string('reason');
             $table->string('status');
-            $table->timestamp('submitted_at')->useCurrent();
+            $table->dateTime('submitted_at');
+            $table->timestamps();
         });
     }
 

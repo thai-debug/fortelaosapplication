@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('leave_policies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('leave_type_id')->constrained('leave_types');
-            $table->foreignId('employment_type_id')->constrained('employment_types');
+            $table->foreignId('leave_type_id')->constrained('leave_types')->onDelete('cascade');
+            $table->foreignId('employment_type_id')->constrained('employment_types')->onDelete('cascade');
             $table->string('entitlement_day')->nullable();
             $table->string('accrual_method')->nullable();
             $table->string('accaryover_max')->nullable();

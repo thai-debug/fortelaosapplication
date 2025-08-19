@@ -13,8 +13,9 @@ return new class extends Migration {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
             $table->string('user_code');
-            $table->foreign('user_code')->references('user_code')->on('users');
-            $table->foreignId('role_id')->constrained('roles');
+            $table->foreign('user_code')->references('user_code')->on('users')->onDelete('cascade');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->unique(['user_code', 'role_id']); // Prevent duplicates
             $table->timestamps();
         });
     }

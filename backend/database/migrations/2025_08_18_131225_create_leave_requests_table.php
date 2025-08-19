@@ -13,13 +13,14 @@ return new class extends Migration {
         Schema::create('leave_requests', function (Blueprint $table) {
             $table->id();
             $table->string('user_code');
-            $table->foreign('user_code')->references('user_code')->on('users');
-            $table->foreignId('leave_type_id')->constrained('leave_types');
+            $table->foreign('user_code')->references('user_code')->on('users')->onDelete('cascade');
+            $table->foreignId('leave_type_id')->constrained('leave_types')->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('days');
-            $table->text('reason');
+            $table->text('reason')->nullable();
             $table->string('status')->default('pending');
+            $table->dateTime('submitted_at');
             $table->timestamps();
         });
     }

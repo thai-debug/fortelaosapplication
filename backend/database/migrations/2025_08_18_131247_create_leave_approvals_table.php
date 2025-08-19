@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create('leave_approvals', function (Blueprint $table) {
             $table->id();
             $table->string('approver_user_code');
-            $table->foreign('approver_user_code')->references('user_code')->on('users');
-            $table->foreignId('leave_request_id')->constrained('leave_requests');
+            $table->foreign('approver_user_code')->references('user_code')->on('users')->onDelete('cascade');
+            $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
             $table->string('action'); // approved/rejected
             $table->text('comment')->nullable();
+            $table->dateTime('submitted_at');
             $table->timestamps();
         });
     }
