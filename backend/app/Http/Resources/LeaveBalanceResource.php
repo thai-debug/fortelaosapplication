@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AttendanceRecordResource extends JsonResource
+class LeaveBalanceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,14 +17,13 @@ class AttendanceRecordResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
-            'work_date' => $this->work_date,
-            'morning_check_in' => $this->morning_check_in,
-            'morning_check_out' => $this->morning_check_out,
-            'afternoon_check_in' => $this->afternoon_check_in,
-            'evening_check_out' => $this->evening_check_out,
-            'import_file_name' => $this->import_file_name,
-            'file_path' => $this->file_path,
-            'submitted_at' => $this->submitted_at,
+            'leave_type' => new LeaveTypeResource($this->whenLoaded('leaveType')),
+            'year' => $this->year,
+            'opening_balance' => $this->opening_balance,
+            'accrued' => $this->accrued,
+            'used' => $this->used,
+            'adjusted' => $this->adjusted,
+            'remaining' => $this->remaining,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

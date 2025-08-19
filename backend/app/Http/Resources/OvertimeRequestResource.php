@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AttendanceRecordResource extends JsonResource
+class OvertimeRequestResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,17 +14,15 @@ class AttendanceRecordResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+                return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
-            'work_date' => $this->work_date,
-            'morning_check_in' => $this->morning_check_in,
-            'morning_check_out' => $this->morning_check_out,
-            'afternoon_check_in' => $this->afternoon_check_in,
-            'evening_check_out' => $this->evening_check_out,
-            'import_file_name' => $this->import_file_name,
-            'file_path' => $this->file_path,
+            'date' => $this->date,
+            'hours' => $this->hours,
+            'reason' => $this->reason,
+            'status' => $this->status,
             'submitted_at' => $this->submitted_at,
+            'approvals' => OvertimeApprovalResource::collection($this->whenLoaded('approvals')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
