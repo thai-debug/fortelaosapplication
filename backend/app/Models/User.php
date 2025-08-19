@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +19,20 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'user_code',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
+        'hire_date',
+        'status',
+        'dob',
+        'gender',
+        'emergency_contact',
         'password',
+        'department_id',
+        'position_id',
+        'employment_type_id',
     ];
 
     /**
@@ -45,5 +56,31 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relationships
+    public function leaveRequests()
+    {
+        return $this->hasMany(Leave_requests::class, 'user_code', 'user_code');
+    }
+
+    public function leaveBalances()
+    {
+        return $this->hasMany(Leave_balances::class, 'user_code', 'user_code');
+    }
+
+    public function approvedLeaves()
+    {
+        return $this->hasMany(Overtime_approvals::class, 'approver_user_code', 'user_code');
+    }
+
+    public function UserRoles(){
+        return $this->belongsTo(Roles::class,'user_code','user_code');
+    }
+
+    // Helper method
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }
