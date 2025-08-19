@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +21,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    use SoftDeletes;
+
     protected $fillable = [
         'user_code',
         'first_name',
@@ -59,28 +64,53 @@ class User extends Authenticatable
     }
 
     // Relationships
-    public function leaveRequests()
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Positions::class);
+    }
+
+    public function employmentType(): BelongsTo
+    {
+        return $this->belongsTo(Employment_types::class, 'user_type_id');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Roles::class, 'user_roles', 'user_code', 'role_id', 'user_code', 'id');
+    }
+
+    public function attendanceRecords(): HasMany
+    {
+        return $this->hasMany(Attendance_records::class, 'user_code', 'user_code');
+    }
+
+    public function leaveRequests(): HasMany
     {
         return $this->hasMany(Leave_requests::class, 'user_code', 'user_code');
     }
 
-    public function leaveBalances()
+    public function leaveBalances(): HasMany
     {
         return $this->hasMany(Leave_balances::class, 'user_code', 'user_code');
     }
 
-    public function approvedLeaves()
+    public function overtimeRequests(): HasMany
+    {
+        return $this->hasMany(Overtime_requests::class, 'request_user_code', 'user_code');
+    }
+
+    public function approvedLeaveRequests()
+    {
+        return $this->hasMany(Leave_approvals::class, 'approver_user_code', 'user_code');
+    }
+
+    public function approvedOvertimeRequests()
     {
         return $this->hasMany(Overtime_approvals::class, 'approver_user_code', 'user_code');
-    }
-
-    public function UserRoles(){
-        return $this->belongsTo(Roles::class,'user_code','user_code');
-    }
-
-    // Helper method
-    public function getFullNameAttribute()
-    {
-        return "{$this->first_name} {$this->last_name}";
     }
 }

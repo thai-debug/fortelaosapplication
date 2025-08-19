@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Leave_requests extends Model
 {
@@ -13,26 +15,28 @@ class Leave_requests extends Model
         'end_date',
         'days',
         'reason',
-        'status'
+        'status',
+        'submitted_at',
     ];
 
     protected $casts = [
         'start_date' => 'date',
-        'end_date' => 'date'
+        'end_date' => 'date',
+        'submitted_at' => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_code', 'user_code');
     }
 
-    public function leaveType()
+    public function leaveType(): BelongsTo
     {
         return $this->belongsTo(Leave_types::class);
     }
 
-    public function approvals()
+    public function approvals(): HasMany
     {
-        return $this->hasMany(Leave_approvals::class);
+        return $this->hasMany(Leave_approvals::class, 'leave_request_id');
     }
 }

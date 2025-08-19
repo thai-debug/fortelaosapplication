@@ -6,9 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Holidays extends Model
 {
-    protected $table = [
-        'holiday_date',
+    //protected $primaryKey = 'holidays_date';
+    //public $incrementing = false;
+    //protected $keyType = 'date';
+    protected $fillable = [
+        'holidays_date',
         'name',
         'is_public',
     ];
+    protected $casts = [
+        'holidays_date' => 'date',
+        'is_public' => 'boolean',
+    ];
+        // Optional: Scope to check if a date is a holiday
+    public function scopeOnDate($query, $date)
+    {
+        return $query->where('holidays_date', $date);
+    }
 }

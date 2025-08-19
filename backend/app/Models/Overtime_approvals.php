@@ -3,22 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Overtime_approvals extends Model
 {
-    protected $table = [
-        'user_code',
-        'overtime_request_id',
-        'action',
-        'comment',
-        'submitted_at',
+   protected $fillable = [
+        'approver_user_code', 'overtime_request_id', 'action', 'comment', 'submitted_at'
     ];
 
-    public function user(){
-        return $this->hasMany(User::class);
+   protected $casts = [
+        'submitted_at' => 'datetime',
+    ];
+
+    public function approver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approver_user_code', 'user_code');
     }
 
-    public function OvertimeRequest(){
-        return $this->hasOne(Overtime_requests::class);
+    public function overtimeRequest(): BelongsTo
+    {
+        return $this->belongsTo(Overtime_requests::class);
     }
 }

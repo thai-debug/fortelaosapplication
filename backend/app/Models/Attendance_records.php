@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Attendance_records extends Model
 {
-    protected $table = [
+    protected $fillable = [
         'user_code',
         'work_date',
         'morning_check_in',
@@ -24,11 +25,12 @@ class Attendance_records extends Model
         'morning_check_out' => 'datetime:H:i',
         'afternoon_check_in' => 'datetime:H:i',
         'evening_check_out' => 'datetime:H:i',
+        'submitted_at' => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_code', 'user_code');
     }
 
         // Helper method to calculate total worked hours

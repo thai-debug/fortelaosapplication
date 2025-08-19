@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Positions extends Model
 {
@@ -12,11 +14,13 @@ class Positions extends Model
         'department_id',
     ];
 
-    public function user(){
-        return $this->hasMany(user::class);
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 
-    public function Departments(){
-        return $this->belongsTo(Department::class);
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'position_id');
     }
 }

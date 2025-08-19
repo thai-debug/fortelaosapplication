@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('employment_type_id')->constrained('employment_types')->onDelete('cascade');
             $table->string('entitlement_day')->nullable();
             $table->string('accrual_method')->nullable();
-            $table->string('accaryover_max')->nullable();
+            $table->string('carryover_max')->nullable();
             $table->timestamps();
         });
     }
