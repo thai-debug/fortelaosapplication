@@ -30,41 +30,41 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 // Protected Routes (require sanctum auth)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/me', [AuthController::class, 'me']);
+//     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // Include all other API routes under auth
-    Route::apiResource('departments', DepartmentController::class);
-    Route::apiResource('roles', RoleController::class);
-    Route::apiResource('user-roles', UserRoleController::class);
-    Route::apiResource('employment-types', EmploymentTypeController::class);
-    Route::apiResource('positions', PositionController::class);
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('attendance-records', AttendanceRecordController::class);
-    Route::apiResource('holidays', HolidayController::class);
-    Route::apiResource('leave-types', LeaveTypeController::class);
-    Route::apiResource('leave-policies', LeavePolicyController::class);
-    Route::apiResource('leave-balances', LeaveBalanceController::class);
-    Route::apiResource('leave-requests', LeaveRequestController::class);
-    Route::apiResource('leave-approvals', LeaveApprovalController::class);
-    Route::apiResource('overtime-requests', OvertimeRequestController::class);
-    Route::apiResource('overtime-approvals', OvertimeApprovalController::class);
-});
+//     // Include all other API routes under auth
+//     Route::apiResource('departments', DepartmentController::class);
+//     Route::apiResource('roles', RoleController::class);
+//     Route::apiResource('user-roles', UserRoleController::class);
+//     Route::apiResource('employment-types', EmploymentTypeController::class);
+//     Route::apiResource('positions', PositionController::class);
+//     Route::apiResource('users', UserController::class);
+//     Route::apiResource('attendance-records', AttendanceRecordController::class);
+//     Route::apiResource('holidays', HolidayController::class);
+//     Route::apiResource('leave-types', LeaveTypeController::class);
+//     Route::apiResource('leave-policies', LeavePolicyController::class);
+//     Route::apiResource('leave-balances', LeaveBalanceController::class);
+//     Route::apiResource('leave-requests', LeaveRequestController::class);
+//     Route::apiResource('leave-approvals', LeaveApprovalController::class);
+//     Route::apiResource('overtime-requests', OvertimeRequestController::class);
+//     Route::apiResource('overtime-approvals', OvertimeApprovalController::class);
+// });
 
 
-// Route::apiResource('departments', DepartmentController::class);
-// Route::apiResource('roles', RoleController::class);
-// Route::apiResource('user-roles', UserRoleController::class);
-// Route::apiResource('employment-types', EmploymentTypeController::class);
-// Route::apiResource('positions', PositionController::class);
-// Route::apiResource('users', UserController::class);
-// Route::apiResource('attendance-records', AttendanceRecordController::class);
-// Route::apiResource('holidays', HolidayController::class);
-// Route::apiResource('leave-types', LeaveTypeController::class);
-// Route::apiResource('leave-policies', LeavePolicyController::class);
-// Route::apiResource('leave-balances', LeaveBalanceController::class);
-// Route::apiResource('leave-requests', LeaveRequestController::class);
-// Route::apiResource('leave-approvals', LeaveApprovalController::class);
-// Route::apiResource('overtime-requests', OvertimeRequestController::class);
-// Route::apiResource('overtime-approvals', OvertimeApprovalController::class);
+Route::apiResource('departments', DepartmentController::class);
+Route::apiResource('roles', RoleController::class);
+Route::apiResource('user-roles', UserRoleController::class);
+Route::apiResource('employment-types', EmploymentTypeController::class);
+Route::apiResource('positions', PositionController::class);
+Route::apiResource('users', UserController::class);
+Route::apiResource('attendance-records', AttendanceRecordController::class);
+Route::apiResource('holidays', HolidayController::class);
+Route::apiResource('leave-types', LeaveTypeController::class);
+Route::apiResource('leave-policies', LeavePolicyController::class);
+Route::apiResource('leave-balances', LeaveBalanceController::class);
+Route::apiResource('leave-requests', LeaveRequestController::class);
+Route::apiResource('leave-approvals', LeaveApprovalController::class);
+Route::apiResource('overtime-requests', OvertimeRequestController::class);
+Route::apiResource('overtime-approvals', OvertimeApprovalController::class);
