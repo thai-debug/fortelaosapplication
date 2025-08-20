@@ -3,46 +3,54 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\OvertimeRequestResource;
+use App\Models\Overtime_requests;
 
 class OvertimeRequestController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $requests = Overtime_requests::with('user', 'approvals.approver')->get();
+        return OvertimeRequestResource::collection($requests);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function show(Overtime_requests $overtimeRequest)
+    {
+        $overtimeRequest->load('user', 'approvals.approver');
+        return new OvertimeRequestResource($overtimeRequest);
+    }
+
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'request_user_code' => 'required|string|exists:users,user_code',
+            'date' => 'required|date',
+            'hours' => 'required|date_format:H:i', // Or use decimal: 'numeric|min:0.5'
+            'reason' => 'required|string|max:500',
+            'status' => 'required|string|in:pending,approved,rejected',
+            'submitted_at' => 'required|date',
+        ]);
+
+        $ot = Overtime_requests::create($validated);
+        return response()->json(new OvertimeRequestResource($ot), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, Overtime_requests $overtimeRequest)
     {
-        //
+        $validated = $request->validate([
+            'hours' => 'sometimes|required|date_format:H:i',
+            'reason' => 'sometimes|required|string|max:500',
+            'status' => 'sometimes|required|string|in:pending,approved,rejected',
+        ]);
+
+        $overtimeRequest->update($validated);
+        return response()->json(new OvertimeRequestResource($overtimeRequest), 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Overtime_requests $overtimeRequest)
     {
-        //
+        $overtimeRequest->delete();
+        return response()->json(null, 204);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
