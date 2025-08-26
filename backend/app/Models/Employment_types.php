@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employment_types extends Model
 {
-    protected $table = "employment_types";
+    //protected $table = "employment_types";
     protected $fillable = [
         'name',
         'descriptions'
@@ -15,11 +15,11 @@ class Employment_types extends Model
 
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'user_type_id');
+        return $this->hasMany(User::class, 'user_code', 'user_code');
     }
 
     public function leavePolicies(): HasMany
     {
-        return $this->hasMany(Leave_policies::class, 'employment_type_id');
+       return $this->hasMany(Leave_policies::class, 'employment_type_id');
     }
 }

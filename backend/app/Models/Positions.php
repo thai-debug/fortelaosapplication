@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Positions extends Model
 {
-    protected $table = [
+    protected $fillable = [
         'title',
         'level',
         'department_id',

@@ -17,7 +17,7 @@ class EmploymentTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
+            'descriptions' => $this->descriptions,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

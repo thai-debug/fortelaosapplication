@@ -14,8 +14,10 @@ class DepartmentController
      */
     public function index()
     {
-        $departments = Department::with('positions', 'users')->get();
+        $departments = Department::all();
+        //$departments = Department::with('positions', 'users')->get(); 
         return DepartmentResource::collection($departments);
+
     }
 
     /**

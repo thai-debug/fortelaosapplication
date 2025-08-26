@@ -13,7 +13,9 @@ class EmploymentTypeController
      */
     public function index()
     {
-        return EmploymentTypeResource::collection(Employment_types::with('users', 'leavePolicies')->get());
+        //return EmploymentTypeResource::collection(Employment_types::with('users', 'leavePolicies')->get());
+        $employmentType = Employment_types::all();
+        return EmploymentTypeResource::collection($employmentType);
     }
 
     /**
@@ -23,7 +25,7 @@ class EmploymentTypeController
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'descriptions' => 'nullable|string',
         ]);
 
         $type = Employment_types::create($validated);
@@ -37,6 +39,7 @@ class EmploymentTypeController
     {
         $employmentType->load('users', 'leavePolicies');
         return new EmploymentTypeResource($employmentType);
+
     }
 
     /**
@@ -46,7 +49,7 @@ class EmploymentTypeController
     {
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
+            'descriptions' => 'nullable|string',
         ]);
 
         $employmentType->update($validated);

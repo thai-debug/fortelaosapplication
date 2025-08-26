@@ -41,7 +41,7 @@ class UserController
             'password' => 'required|string|min:8|confirmed',
             'department_id' => 'nullable|exists:departments,id',
             'position_id' => 'nullable|exists:positions,id',
-            'user_type_id' => 'nullable|exists:employment_types,id',
+            'employment_type_id' => 'nullable|exists:employment_types,id',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -77,7 +77,7 @@ class UserController
             'password' => 'nullable|string|min:8|confirmed',
             'department_id' => 'nullable|exists:departments,id',
             'position_id' => 'nullable|exists:positions,id',
-            'user_type_id' => 'nullable|exists:employment_types,id',
+            'employment_type_id' => 'nullable|exists:employment_types,id',
             'status' => 'sometimes|string|in:enabled,disabled',
         ]);
 
