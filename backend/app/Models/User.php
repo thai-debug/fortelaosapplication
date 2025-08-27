@@ -23,6 +23,12 @@ class User extends Authenticatable
      */
     use SoftDeletes;
 
+    protected $primaryKey = 'user_code'; // Set the primary key to user_code
+    protected $keyType = 'string'; // Set the primary key type to string
+    protected $casts = [ // Set the user_code column to be cast as a string
+        'user_code' => 'string',
+    ];
+
     protected $fillable = [
         'user_code',
         'first_name',
@@ -55,7 +61,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected function casts(): array // Set the email_verified_at column to be cast as a datetime
     {
         return [
             'email_verified_at' => 'datetime',
@@ -77,7 +83,7 @@ class User extends Authenticatable
 
     public function employmentType(): BelongsTo
     {
-        return $this->belongsTo(Employment_types::class, 'user_type_id');
+        return $this->belongsTo(Employment_types::class, 'employment_type_id');
     }
 
     public function roles()
