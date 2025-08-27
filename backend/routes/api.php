@@ -60,6 +60,10 @@ Route::apiResource('employment-types', EmploymentTypeController::class);
 Route::apiResource('positions', PositionController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('attendance-records', AttendanceRecordController::class);
+Route::get('/attendance/user/{userCode}', [AttendanceRecordController::class, 'getByUser']);
+Route::get('/attendance/user/{userCode}/date/{workDate}', [
+    AttendanceRecordController::class, 'showByUserAndDate'
+]);
 Route::apiResource('holidays', HolidayController::class);
 Route::apiResource('leave-types', LeaveTypeController::class);
 Route::apiResource('leave-policies', LeavePolicyController::class);

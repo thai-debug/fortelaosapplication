@@ -20,12 +20,12 @@ class Attendance_records extends Model
     ];
 
     protected $casts = [
-        'work_date' => 'date',
-        'morning_check_in' => 'datetime:H:i',
-        'morning_check_out' => 'datetime:H:i',
-        'afternoon_check_in' => 'datetime:H:i',
-        'evening_check_out' => 'datetime:H:i',
-        'submitted_at' => 'datetime',
+        //'work_date' => 'date',
+        ///'morning_check_in' => 'H:i:s',
+        //'morning_check_out' => 'H:i:s',
+        //'afternoon_check_in' => 'H:i:s',
+        //'evening_check_out' => 'H:i:s',
+        //'submitted_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
