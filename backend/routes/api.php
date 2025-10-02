@@ -27,6 +27,8 @@ use App\Http\Controllers\API\OvertimeApprovalController;
 // Public Auth Routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/me', [AuthController::class, 'me']);
+
 
 
 // Protected Routes (require sanctum auth)
@@ -65,6 +67,8 @@ Route::get('/attendance/user/{userCode}/date/{workDate}', [
     AttendanceRecordController::class, 'showByUserAndDate'
 ]);
 Route::apiResource('holidays', HolidayController::class);
+Route::get('/holidays/date/{date}', [HolidayController::class, 'getHolidayByDate']);
+Route::get('/holidays/month/{month}', [HolidayController::class, 'getHolidayByMonth']);
 Route::apiResource('leave-types', LeaveTypeController::class);
 Route::apiResource('leave-policies', LeavePolicyController::class);
 Route::apiResource('leave-balances', LeaveBalanceController::class);

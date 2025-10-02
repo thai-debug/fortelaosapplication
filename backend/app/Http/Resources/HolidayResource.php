@@ -16,7 +16,8 @@ class HolidayResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'holidays_date' => $this->holidays_date,
+            'holidays_from_date' => $this->holidays_from_date,
+            'holidays_to_date' => $this->holidays_to_date,
             'name' => $this->name,
             'is_public' => $this->is_public,
             'created_at' => $this->created_at,

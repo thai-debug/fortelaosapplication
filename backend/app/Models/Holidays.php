@@ -10,17 +10,19 @@ class Holidays extends Model
     //public $incrementing = false;
     //protected $keyType = 'date';
     protected $fillable = [
-        'holidays_date',
+        'holidays_from_date',
+        'holidays_to_date',
         'name',
         'is_public',
     ];
     protected $casts = [
-        'holidays_date' => 'date',
+        'holidays_from_date' => 'date',
+        'holidays_to_date' => 'date',
         'is_public' => 'boolean',
     ];
         // Optional: Scope to check if a date is a holiday
     public function scopeOnDate($query, $date)
     {
-        return $query->where('holidays_date', $date);
+        return $query->where('holidays_from_date', $date)->orWhere('holidays_to_date', $date);
     }
 }
