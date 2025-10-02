@@ -8,7 +8,7 @@ const route = useRoute();
 
 const sidebarOpen = ref(true);
 const isMobile = ref(false);
-
+const sidebarRef = ref(null);
 
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;
@@ -40,12 +40,47 @@ const menuItems = [
       {
         label: 'Leave Request',
         to: '/leave-request',
-        icon: 'ri ri-calendar-line',
+        icon: 'ri ri-user-shared-2-line',
       },
       {
-        label: 'User Account',
-        to: '/user-account',
-        icon: 'ri ri-user-line',
+        label: 'Leave Type',
+        to: '/leave-type',
+        icon: 'ri ri-user-settings-line',
+      },
+      {
+        label: 'Over Time Request',
+        to: '/over-time-request',
+        icon: 'ri ri-time-line',
+      },
+      {
+        label: 'Employees',
+        to: '/employees',
+        icon: 'ri ri-user-community-line',
+      },
+      {
+        label: 'Employee Role',
+        to: '/employee-role',
+        icon: 'ri ri-role-binding',
+      },
+      {
+        label: 'Position',
+        to: '/position',
+        icon: 'ri ri-party-leader',
+      },
+      {
+        label: 'Department',
+        to: '/department',
+        icon: 'ri ri-department-line',
+      },
+      {
+        label: 'Public Holiday',
+        to: '/public-holiday',
+        icon: 'ri ri-holiday-line',
+      },
+      {
+        label: 'Employment Type',
+        to: '/employment-type',
+        icon: 'ri ri-contract-across-outline',
       },
     ],
   },
@@ -100,9 +135,16 @@ onMounted(expandActiveMenu);
 watch(() => route.path, expandActiveMenu);
 
 onMounted(() => {
+
+  if (sidebarRef.value) {
+    new PerfectScrollbar(sidebarRef.value);
+  }
+
   handleResize();
   window.addEventListener('resize', handleResize);
+
 });
+
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
@@ -113,51 +155,52 @@ onBeforeUnmount(() => {
 <template>
 
   <!-- Layout wrapper -->
-  <div class="layout-wrapper layout-content-navbar  ">
-    <div class="layout-container">
+  <div  class="layout-wrapper layout-content-navbar">
+
+    <div class="layout-container ">
 
       <!-- Menu -->
-      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" :class="[
+
+      <aside ref="sidebarRef" id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme ps" :class="[
         isMobile ? 'mobile-sidebar' : '',
-        sidebarOpen ? 'show-sidebar' : 'hide-sidebar',
-        'fixed-sidebar'
+        sidebarOpen ? 'show-sidebar' : 'hide-sidebar', 
+        'fixed-sidebar',
       ]">
 
-        <div class="app-brand demo ">
-          <RouterLink to="/" class="app-brand-link">
-            <span class="app-brand-logo demo me-1">
-              <img :src="url + '/assets/img/logo/fortelogo.png'" alt="Logo" width="150" height="110" />
-            </span>
-          </RouterLink>
+          <div class="app-brand demo ">
+            <RouterLink to="/" class="app-brand-link">
+              <span class="app-brand-logo demo me-1">
+                <img :src="url + '/assets/img/logo/fortelogo.png'" alt="Logo" width="150" height="110" />
+              </span>
+            </RouterLink>
 
-        </div>
+          </div>
 
-        <div class="menu-inner-shadow"></div>
+          <div class="menu-inner-shadow"></div>
 
-        <ul class="menu-inner py-1">
-          <li v-for="item in menuItems" :key="item.key" :class="[
-            'menu-item',
-            dropdowns[item.key] ? 'open' : '',
-            isActive(item.to) || hasActiveChild(item.children) ? 'active' : ''
-          ]">
-            <!-- Main Menu Link -->
-            <div class="menu-link menu-toggle" @click="toggleDropdown(item.key)">
-              <i :class="['menu-icon icon-base', item.icon]"></i>
-              <div :data-i18n="item.label">{{ item.label }}</div>
-            </div>
+          <ul class="menu-inner py-1">
+            <li v-for="item in menuItems" :key="item.key" :class="[
+              'menu-item',
+              dropdowns[item.key] ? 'open' : '',
+              isActive(item.to) || hasActiveChild(item.children) ? 'active' : ''
+            ]">
+              <!-- Main Menu Link -->
+              <div class="menu-link menu-toggle" @click="toggleDropdown(item.key)">
+                <i :class="['menu-icon icon-base', item.icon]"></i>
+                <div :data-i18n="item.label">{{ item.label }}</div>
+              </div>
 
-            <!-- Submenu -->
-            <ul class="menu-sub" :class="{ show: dropdowns[item.key] }">
-              <li v-for="sub in item.children" :key="sub.to" :class="['menu-item', isActive(sub.to) ? 'active' : '']">
-                <RouterLink :to="sub.to" class="menu-link" @click.stop>
-                  <i :class="['menu-icon icon-base', sub.icon]"></i>
-                  <div :data-i18n="sub.label">{{ sub.label }}</div>
-                </RouterLink>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
+              <!-- Submenu -->
+              <ul class="menu-sub" :class="{ show: dropdowns[item.key] }">
+                <li v-for="sub in item.children" :key="sub.to" :class="['menu-item', isActive(sub.to) ? 'active' : '']">
+                  <RouterLink :to="sub.to" class="menu-link" @click.stop>
+                    <i :class="['menu-icon icon-base', sub.icon]"></i>
+                    <div :data-i18n="sub.label">{{ sub.label }}</div>
+                  </RouterLink>
+                </li>
+              </ul>
+            </li>
+          </ul>
       </aside>
       <!-- / Menu -->
 
@@ -268,7 +311,6 @@ onBeforeUnmount(() => {
 
             </ul>
           </div>
-
         </nav>
 
         <!-- / Navbar -->
@@ -306,7 +348,6 @@ onBeforeUnmount(() => {
       </div>
       <!-- / Layout page -->
     </div>
-
     <!-- Overlay -->
 
     <div v-if="sidebarOpen && isMobile" class="layout-overlay layout-menu-toggle" @click="toggleSidebar"></div>
@@ -359,8 +400,10 @@ onBeforeUnmount(() => {
 
 .layout-page {
 
-  margin-left: 250px; /* sidebar width */
-  padding-top: 64px;  /* navbar height */
+  margin-left: 250px;
+  /* sidebar width */
+  padding-top: 64px;
+  /* navbar height */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -377,7 +420,8 @@ onBeforeUnmount(() => {
 .content-wrapper {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 80px; /* space for footer */
+  padding-bottom: 80px;
+  /* space for footer */
 }
 
 
@@ -397,8 +441,22 @@ onBeforeUnmount(() => {
   left: 0;
   right: 0;
   z-index: 1050;
-  height: 64px; /* adjust based on your navbar height */
-
+  height: 64px;
 }
+
+
+
+/* Optional: Customize scrollbar appearance */
+.ps__rail-x,
+.ps__rail-y {
+  z-index: 9999;
+}
+
+
+.ps__thumb-y {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
 
 </style>
