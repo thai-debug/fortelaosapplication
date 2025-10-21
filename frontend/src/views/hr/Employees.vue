@@ -1,6 +1,6 @@
 <script setup>
-import { useFormStore } from "../stores/EmployeeStore";
-import FormField from "../components/FormField.vue";
+import { useFormStore } from "../../stores/hr/EmployeeStore";
+import FormField from "../../components/FormField.vue";
 
 const store = useFormStore();
 </script>
@@ -168,7 +168,7 @@ const store = useFormStore();
 
                 <div class="col-md-12">
                   <FormField
-                    label="New employee will be inactive by default, please switch active."
+                    label="New employee will be set to inactive by default, please switch to active."
                     name="isactive"
                     id="isactive"
                     type="switch"
@@ -183,7 +183,7 @@ const store = useFormStore();
                     :disabled="store.loading"
                   >
                     {{ store.loading ? "Submitting..." : "Submit" }}
-                  </button>
+                  </button>&nbsp;
                   <button
                     type="reset"
                     class="btn btn-warning waves-effect waves-light"

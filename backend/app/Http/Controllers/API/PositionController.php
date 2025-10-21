@@ -21,14 +21,34 @@ class PositionController
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'level' => 'required|string|max:100',
-            'department_id' => 'required|exists:departments,id',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'level' => 'required|string|max:100',
+                'department_id' => 'required|exists:departments,id',
+            ]);
 
-        $position = Positions::create($validated);
-        return response()->json(new PositionResource($position), 201);
+            $position = Positions::create($validated);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Position created successfully.',
+                'data' => new PositionResource($position)
+            ], 201);
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

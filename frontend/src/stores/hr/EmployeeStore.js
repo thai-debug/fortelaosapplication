@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "../axios"; // your Axios config with CSRF setup
+import axios from "../../axios"; // your Axios config with CSRF setup
 
 
 export const useFormStore = defineStore("form", {

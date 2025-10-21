@@ -5,6 +5,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
 
 import 'vue3-perfect-scrollbar/style.css';
@@ -14,5 +17,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+app.use(VueSweetalert2)
 app.use(PerfectScrollbar)
 app.mount('#app')

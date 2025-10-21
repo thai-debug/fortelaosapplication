@@ -14,24 +14,50 @@ class DepartmentController
      */
     public function index()
     {
-        $departments = Department::all();
-        //$departments = Department::with('positions', 'users')->get(); 
-        return DepartmentResource::collection($departments);
-
+        try {
+            $departments = Department::all();
+            //$departments = Department::with('positions', 'users')->get(); 
+            return DepartmentResource::collection($departments);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-       public function store(Request $request)
+    public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|unique:departments,code|max:50',
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'code' => 'required|string|unique:departments,code|max:50',
+            ]);
 
-        $department = Department::create($validated);
-        return response()->json(new DepartmentResource($department), 201);
+            $department = Department::create($validated);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Department created successfully.',
+                'data' => new DepartmentResource($department)
+            ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -39,8 +65,16 @@ class DepartmentController
      */
     public function show(Department $department)
     {
-        $department->load('positions', 'users');
-        return new DepartmentResource($department);
+        try {
+            $department->load('positions', 'users');
+            return new DepartmentResource($department);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -48,13 +82,27 @@ class DepartmentController
      */
     public function update(Request $request, Department $department)
     {
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'code' => 'sometimes|required|string|max:50|unique:departments,code,' . $department->id,
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'sometimes|required|string|max:255',
+                'code' => 'sometimes|required|string|max:50|unique:departments,code,' . $department->id,
+            ]);
 
-        $department->update($validated);
-        return response()->json(new DepartmentResource($department), 200);
+            $department->update($validated);
+            return response()->json(new DepartmentResource($department), 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -62,7 +110,19 @@ class DepartmentController
      */
     public function destroy(Department $department)
     {
-        $department->delete();
-        return response()->json(null, 204);
+        try {
+            $department->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Department deleted successfully.'
+            ], 204);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
