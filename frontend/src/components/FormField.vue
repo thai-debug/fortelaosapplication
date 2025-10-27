@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from "vue";
+import {computed, ref, onMounted} from "vue";
 
 const props = defineProps({
   label: String,
@@ -22,6 +22,7 @@ const props = defineProps({
     default: () => [],
   },
   rules: { type: Object, default: () => ({}) }, // e.g. { required: true, minLength: 3 }
+  condition: { type: Function, default: () => true }, //condition to filter
 });
 
 const error = computed(() => {

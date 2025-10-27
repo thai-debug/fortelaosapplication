@@ -45,7 +45,7 @@ export const useDepartmentStore = defineStore("department", {
           
  
       } catch (err) {
-        this.error = err.response.data.message;
+        this.error = err.response.data.message || "Something went wrong!";
         
           await Swal.fire({
             icon: "error",
@@ -92,7 +92,7 @@ export const useDepartmentStore = defineStore("department", {
 
     // Fetch department options
     async fetchDepartments() {
-      this.showLoading("Loading departments...");
+      //this.showLoading("Loading departments...");
       this.error = null;
   
       try {

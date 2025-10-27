@@ -1,80 +1,77 @@
 <script setup>
 import { usePositionStore } from "../../stores/hr/PositionStore";
-import { useDepartmentStore } from "../../stores/hr/DepartmentStore";
-import FormField from "../../components/FormField.vue";
-import { computed } from "vue";
+import CreatePosition from "../../components/CreatePosition.vue";
+import { onMounted } from "vue";
 
 const store = usePositionStore();
-const departmentStore = useDepartmentStore();
 
-const departments = computed(() => departmentStore.departments);
+
+const handleCompleted = async () => {
+  await store.fetchPositions();
+};
+
+onMounted(() => {
+  store.fetchPositions();
+});
+
 </script>
 <template>
   <div class="col-12">
-    <div class="card">
-      <div
-        class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row"
+    <!--Create Position-->
+    <div class="pb-4">
+      <button
+        class="btn btn-primary waves-effect waves-light"
+        v-if="!store.showCreateForm"
+        @click="store.toggleCreateForm(true)"
       >
-        <h5 class="card-title mb-sm-0 me-2">New Position Form</h5>
-      </div>
-      <div class="card-body pt-5">
-        <form @submit.prevent="store.submitForm">
-          <div class="row">
-            <div class="col-lg-8 mx-auto">
-              <div class="row g-6 pb-6">
-                <div class="col-md-12">
-                  <FormField
-                    label="Department"
-                    name="department_id"
-                    id="department_id"
-                    type="select"
-                    placeholder=""
-                    v-model="store.form.department_id"
-                    :options="store.departmentOptions"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <FormField
-                    label="Position name"
-                    name="title"
-                    id="title"
-                    type="text"
-                    placeholder=""
-                    v-model="store.form.title"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <FormField
-                    label="Level"
-                    name="level"
-                    id="level"
-                    type="text"
-                    placeholder=""
-                    v-model="store.form.level"
-                  />
-                </div>
+        <i class="icon-base ri ri-add-line me-1_5"></i>New Position
+      </button>
 
-                <div class="col-md-12 gap-2 d-flex">
-                  <button
-                    type="submit"
-                    class="btn btn-primary waves-effect waves-light"
-                    :disabled="store.loading"
+      <div v-if="store.showCreateForm">
+        <button
+          class="btn btn-primary waves-effect waves-light"
+          @click="store.clearSelectedPosition()"
+        >
+          <i class="icon-base ri ri-arrow-left-line me-1_5"></i>Back
+        </button>
+        <CreatePosition @completed="handleCompleted" />
+      </div>
+    </div>
+
+    <!--Position List-->
+    <div v-if="!store.showCreateForm" class="card">
+      <h5 class="card-header p-4">Position List</h5>
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-hover" v-if="store.positions.length">
+            <thead>
+              <tr>
+                <th class="text-truncate">NUMBER</th>
+                <th class="text-truncate">POSITION NAME</th>
+                <th class="text-truncate">LEVEL</th>
+                <th class="text-truncate">DEPARTMENT</th>
+                <th class="text-truncate">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+              <tr v-for="(pos, index) in store.positions" :key="pos.id">
+                <td>
+                  {{ index + 1 }}
+                </td>
+                <td>{{ pos.title }}</td>
+                <td>{{ pos.level }}</td>
+                <td>{{ pos.department.name }}</td>
+                <td>
+                  <span
+                    class="badge bg-warning rounded-pill cursor-pointer"
+                    @click="store.setSelectedPosition(pos)"
+                    >Edit</span
                   >
-                    {{ store.loading ? "Submitting..." : "Submit" }}</button
-                  >&nbsp;
-                  <button
-                    type="button"
-                    class="btn btn-warning waves-effect waves-light"
-                    :disabled="store.loading"
-                    @click="store.resetForm"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
