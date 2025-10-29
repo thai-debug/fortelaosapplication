@@ -74,7 +74,7 @@ const menuItems = [
       },
       {
         label: 'Public Holiday',
-        to: '/public-holiday',
+        to: '/holiday',
         icon: 'ri ri-holiday-line',
       },
       {

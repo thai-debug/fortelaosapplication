@@ -6,6 +6,7 @@ import LeaveRequest from '../views/hr/Leave-request.vue'
 import Employees from '../views/hr/Employees.vue'
 import Departments from '../views/hr/Departments.vue'
 import Positions from '../views/hr/Positions.vue'
+import Holidays from '../views/hr/Holidays.vue'
 
 
 const router = createRouter({
@@ -45,6 +46,11 @@ const router = createRouter({
       path: '/position',
       name: 'Position',
       component: Positions,
+    },
+    {
+      path: '/holiday',
+      name: 'Holiday',
+      component: Holidays,
     }
 
   ],

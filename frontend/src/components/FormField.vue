@@ -4,6 +4,7 @@ import {computed, ref, onMounted} from "vue";
 const props = defineProps({
   label: String,
   name: String,
+  id: String,
   type: {
     type: String,
     default: "text",
@@ -14,7 +15,7 @@ const props = defineProps({
     default: false,
   },
   modelValue: {
-    type: [String, Number, Boolean, Array],
+    type: [String, Number, Boolean, Array, Date],
     default: "",
   },
   options: {
@@ -40,6 +41,11 @@ const error = computed(() => {
 
 const emit = defineEmits(["update:modelValue"]);
 
+const proxyValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
+
 function toggleCheckbox(value) {
   const newValue = Array.isArray(props.modelValue) ? [...props.modelValue] : [];
   const index = newValue.indexOf(value);
@@ -63,12 +69,11 @@ function toggleCheckbox(value) {
       v-if="['text', 'email', 'password', 'date'].includes(type)"
       :type="type"
       class="form-control"
-      :id="name"
+      :id="id"
       :name="name"
       :placeholder="placeholder"
       :required="required"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      v-model="proxyValue"
     />
     <div v-if="error" class="text-danger mt-1">{{ error }}</div>
 
@@ -76,12 +81,11 @@ function toggleCheckbox(value) {
     <textarea
       v-else-if="type === 'textarea'"
       class="form-control"
-      :id="name"
+      :id="id"
       :name="name"
       :placeholder="placeholder"
       :required="required"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      v-model="proxyValue"
     ></textarea>
     <div v-if="error" class="text-danger mt-1">{{ error }}</div>
 
@@ -89,11 +93,10 @@ function toggleCheckbox(value) {
     <select
       v-else-if="type === 'select'"
       class="form-select"
-      :id="name"
+      :id="id"
       :name="name"
       :required="required"
-      :value="modelValue"
-      @change="$emit('update:modelValue', $event.target.value)"
+      v-model="proxyValue"
     >
       <option disabled value="">-- Select an option --</option>
       <option
@@ -119,7 +122,7 @@ function toggleCheckbox(value) {
           :id="`${name}-${option.value}`"
           :name="name"
           :value="option.value"
-          :checked="modelValue === option.value"
+          :checked="proxyValue === option.value"
           @change="$emit('update:modelValue', option.value)"
         />
         <label class="form-check-label" :for="`${name}-${option.value}`">
@@ -143,7 +146,7 @@ function toggleCheckbox(value) {
         type="checkbox"
         :id="`${name}-${option.value}`"
         :value="option.value"
-        :checked="modelValue.includes(option.value)"
+        :checked="proxyValue.includes(option.value)"
         @change="toggleCheckbox(option.value)"
       />
       <label class="form-check-label" :for="`${name}-${option.value}`">
@@ -158,11 +161,11 @@ function toggleCheckbox(value) {
     <input
       class="form-check-input"
       type="checkbox"
-      :id="name"
-      :checked="modelValue"
+      :id="id"
+      :checked="proxyValue"
       @change="$emit('update:modelValue', $event.target.checked)"
     />
-    <label class="form-check-label" :for="name">
+    <label class="form-check-label" :for="id">
       {{ label }}
     </label>
     <div v-if="error" class="text-danger mt-1">{{ error }}</div>
