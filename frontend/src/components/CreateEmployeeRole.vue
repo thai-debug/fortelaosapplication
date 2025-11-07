@@ -1,37 +1,32 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import { useHolidayStore } from "../stores/hr/HolidayStore";
+import { ref, watch } from "vue";
+import { useEmployeeRoleStore } from "../stores/hr/EmployeeRoleStore";
 import FormField from "../components/FormField.vue";
-import { useDateFormat } from "../stores/helper"; 
 
-const store = useHolidayStore();
+const store = useEmployeeRoleStore();
 const isUpdate = ref(false);
 const emit = defineEmits(['completed'])
 
-watch(() => store.selectedHoliday, (holiday) => {
-  if (holiday) {
-    store.form.holidays_from_date = holiday.holidays_from_date;
-    store.form.holidays_to_date = holiday.holidays_to_date;
-    store.form.name = holiday.name;
-    store.form.is_public = holiday.is_public;
-    isUpdate.value = true;
+watch(() => store.selectedEmployeeRole, (employeeRole) => {
+  if (employeeRole) {
+    store.form.name = employeeRole.name
+    store.form.descriptions = employeeRole.descriptions
+    isUpdate.value = true
   }else{
-    store.form.holidays_from_date = '';
-    store.form.holidays_to_date = '';
-    store.form.name = '';
-    store.form.is_public = true;
-    isUpdate.value = false;
+    store.form.name = ''
+    store.form.descriptions = ''
+    isUpdate.value = false
   }
 }, { immediate: true })
 
 // onMounted(async() => {
-//   await store.fetchHolidays()
+//   await store.fetchDepartments()
 // })
 
 const submit = async () => {
   try {
     if (isUpdate.value) {
-      await store.updateHoliday(store.selectedHoliday.id, store.form)
+      await store.updateEmployeeRole(store.selectedEmployeeRole.id, store.form)
     } else {
       await store.submitForm()
     }
@@ -41,9 +36,9 @@ const submit = async () => {
   }
 }
 
-const deleteHoliday = async () => {
+const deleteEmployeeRole = async () => {
   try {
-    await store.deleteHoliday(store.selectedHoliday.id)
+    await store.deleteEmployeeRole(store.selectedEmployeeRole.id)
     emit('completed')
   } catch (error) {
       console.log(error)
@@ -57,16 +52,17 @@ const deleteHoliday = async () => {
       <div
         class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row"
       >
-        <h5 class="card-title mb-sm-0 me-2">{{ isUpdate ? 'Update' : 'Create' }} Holiday</h5>
+        <h5 class="card-title mb-sm-0 me-2">{{ isUpdate ? 'Update' : 'Create' }} Employee Role</h5>
       </div>
       <div class="card-body pt-5">
         <form @submit.prevent="submit">
           <div class="row">
             <div class="col-lg-8 mx-auto">
               <div class="row g-6 pb-6">
-                <div class="col-md-12">
+                
+                <div class="col-md-6">
                   <FormField
-                    label="Holiday name"
+                    label="Name:"
                     name="name"
                     id="name"
                     type="text"
@@ -76,33 +72,12 @@ const deleteHoliday = async () => {
                 </div>
                 <div class="col-md-6">
                   <FormField
-                    label="From Date"
-                    name="from_date"
-                    id="from_date"
-                    type="date"
+                    label="Description:"
+                    name="descriptions"
+                    id="descriptions"
+                    type="text"
                     placeholder=""
-                    v-model="store.form.holidays_from_date"
-                  />
-
-                </div>
-                <div class="col-md-6">
-                  <FormField
-                    label="To Date"
-                    name="to_date"
-                    id="to_date"
-                    type="date"
-                    placeholder=""
-                    v-model="store.form.holidays_to_date"
-                  />
-                </div>
-                <div class="col-md-12">
-                  <FormField
-                    label="Is Public"
-                    name="is_public"
-                    id="is_public"
-                    type="switch"
-                    placeholder=""
-                    v-model="store.form.is_public"
+                    v-model="store.form.descriptions"
                   />
                 </div>
 
@@ -117,7 +92,7 @@ const deleteHoliday = async () => {
                   <button
                     type="button"
                     class="btn btn-danger waves-effect waves-light"
-                    @click="deleteHoliday"
+                    @click="deleteEmployeeRole"
                   >
                     Delete
                   </button>
@@ -139,11 +114,12 @@ const deleteHoliday = async () => {
                     Clear
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
         </form>
       </div>
     </div>
-  </div>
+    </div>
 </template>

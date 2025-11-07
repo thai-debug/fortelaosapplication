@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'dob' => $this->dob,
             'gender' => $this->gender,
             'emergency_contact' => $this->emergency_contact,
+            'address' => $this->address,
             'status' => $this->status,
             'department' => new DepartmentResource($this->whenLoaded('department')),
             'position' => new PositionResource($this->whenLoaded('position')),

@@ -17,6 +17,7 @@ export const useHolidayStore = defineStore("holiday", {
     loading: false,
     success: false,
     error: null,
+
   }),
 
   actions: {
@@ -66,16 +67,16 @@ export const useHolidayStore = defineStore("holiday", {
 
     // selected holiday
     setSelectedHoliday(holiday) {
-      console.log(holiday)
+      //console.log(holiday)
       this.selectedHoliday = holiday;
 
-      this.form = {
-        id: holiday.id,
-        name: holiday.name,
-        holidays_from_date: holiday.holidays_from_date ? holiday.holidays_from_date.split('T')[0] : '',
-        holidays_to_date: holiday.holidays_to_date ? holiday.holidays_to_date.split('T')[0] : '',
-        is_public: holiday.is_public,
-      }
+      // this.form = {
+      //   id: holiday.id,
+      //   name: holiday.name,
+      //   holidays_from_date: holiday.holidays_from_date ? holiday.holidays_from_date.split('T')[0] : '',
+      //   holidays_to_date: holiday.holidays_to_date ? holiday.holidays_to_date.split('T')[0] : '',
+      //   is_public: holiday.is_public,
+      // }
 
       this.showCreateForm = true;
     },

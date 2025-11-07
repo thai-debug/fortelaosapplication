@@ -19,10 +19,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('hire_date');
-            $table->string('status')->default('enabled');
+            $table->boolean('status')->default(false);
             $table->date('dob');
             $table->string('gender');
             $table->string('emergency_contact');
+            $table->text('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('department_id')->constrained('departments')->onDelete('set null');

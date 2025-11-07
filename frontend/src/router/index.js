@@ -7,6 +7,8 @@ import Employees from '../views/hr/Employees.vue'
 import Departments from '../views/hr/Departments.vue'
 import Positions from '../views/hr/Positions.vue'
 import Holidays from '../views/hr/Holidays.vue'
+import EmploymentType from '../views/hr/EmploymentType.vue'
+//import EmployeeRole from '../views/hr/EmployeeRole.vue'
 
 
 const router = createRouter({
@@ -51,7 +53,17 @@ const router = createRouter({
       path: '/holiday',
       name: 'Holiday',
       component: Holidays,
-    }
+    },
+    {
+      path: '/employment-type',
+      name: 'EmploymentType',
+      component: EmploymentType,
+    },
+    // {
+    //   path: '/employee-role',
+    //   name: 'EmployeeRole',
+    //   component: EmployeeRole,
+    // }
 
   ],
 })

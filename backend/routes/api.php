@@ -60,15 +60,19 @@ Route::apiResource('roles', RoleController::class);
 Route::apiResource('user-roles', UserRoleController::class);
 Route::apiResource('employment-types', EmploymentTypeController::class);
 Route::apiResource('positions', PositionController::class);
-Route::apiResource('users', UserController::class);
+Route::apiResource('users', UserController::class)->parameters(['users' => 'user']);
 Route::apiResource('attendance-records', AttendanceRecordController::class);
 Route::get('/attendance/user/{userCode}', [AttendanceRecordController::class, 'getByUser']);
 Route::get('/attendance/user/{userCode}/date/{workDate}', [
     AttendanceRecordController::class, 'showByUserAndDate'
 ]);
+
+Route::get('/users/next/{department_id}', [UserController::class, 'getNextEmployeeCode']);
+
 Route::apiResource('holidays', HolidayController::class);
 Route::get('/holidays/date/{date}', [HolidayController::class, 'getHolidayByDate']);
 Route::get('/holidays/month/{month}', [HolidayController::class, 'getHolidayByMonth']);
+
 Route::apiResource('leave-types', LeaveTypeController::class);
 Route::apiResource('leave-policies', LeavePolicyController::class);
 Route::apiResource('leave-balances', LeaveBalanceController::class);

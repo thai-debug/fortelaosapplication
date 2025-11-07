@@ -2,17 +2,15 @@ import { defineStore } from "pinia";
 import axios from "../../axios"; // your Axios config with CSRF setup
 import Swal from "sweetalert2";
 
-export const usePositionStore = defineStore("position", {
+export const useEmployeeRoleStore = defineStore("employeeRole", {
   state: () => ({
     form: {
-      title: "",
-      level: "",
-      department_id: "",
+      name: "",
+      descriptions: "",
     },
 
-    departmentOptions: [],
-    positions: [],
-    selectedPosition: null,
+    employeeRoles: [],
+    selectedEmployeeRole: null,
     showCreateForm: false,
     loading: false,
     success: false,
@@ -22,18 +20,18 @@ export const usePositionStore = defineStore("position", {
   actions: {
     async submitForm() {
       this.error = null;
-      this.showLoading("Creating position...");
+      this.showLoading("Creating employment type...");
 
       try {
         await axios.get("/sanctum/csrf-cookie");
-        const response = await axios.post("/api/positions", this.form);
+        const response = await axios.post("/api/roles", this.form);
 
         this.success = true;
 
         await Swal.fire({
           icon: "success",
           title: "Success",
-          text: response.data.message || "Position created successfully!",
+          text: response.data.message || "Employment type created successfully!",
           timer: 5000,
           showConfirmButton: true,
           timerProgressBar: true,
@@ -41,7 +39,7 @@ export const usePositionStore = defineStore("position", {
 
         this.toggleCreateForm(false);
 
-        this.fetchPositions();
+        this.fetchEmployeeRoles();
       } catch (err) {
         this.error = err.response?.data?.message || "Something went wrong!";
 
@@ -59,42 +57,26 @@ export const usePositionStore = defineStore("position", {
     },
 
     // Fetch department options
-    async fetchPositions() {
-      this.showLoading("Loading positions...");
+    async fetchEmployeeRoles() {
+      this.showLoading("Loading employee roles...");
       this.error = null;
 
       try {
-        const response = await axios.get("/api/positions");
-        this.positions = response.data.data || response.data;
+        const response = await axios.get("/api/roles");
+        this.employeeRoles = response.data.data || response.data;
       } catch (err) {
-        this.error = err.response?.data?.message || "Failed to load positions";
+        this.error = err.response?.data?.message || "Failed to load employee roles";
       } finally {
         this.closeLoading();
       }
     },
 
 
-    // Fetch department options
-    async fetchDepartments() {
-      this.loading = true;
-      this.error = null;
-
-      try {
-        const response = await axios.get("/api/departments");
-        this.departmentOptions = response.data.data || response.data;
-      } catch (err) {
-        this.error = "Failed to load department options";
-      } finally {
-        this.loading = false;
-      }
-    },
-
-
     // Update department options
-    async updatePosition(id, data) {
+    async updateEmployeeRole(id, data) {
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: "This action will permanently update this position!",
+        text: "This action will permanently update this employee role!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -107,19 +89,19 @@ export const usePositionStore = defineStore("position", {
 
       if (result.isConfirmed) {
         try {
-          this.showLoading("Updating position...");
-          const response = await axios.put(`/api/positions/${id}`, data);
+          this.showLoading("Updating employee role...");
+          const response = await axios.put(`/api/roles/${id}`, data);
           const updated = response.data.data || response.data;
-          const index = this.positions.findIndex((pos) => pos.id === id);
+          const index = this.employeeRoles.findIndex((emp) => emp.id === id);
           if (index !== -1) {
-            this.positions[index] = updated;
-            this.clearSelectedPosition();
+            this.employeeRoles[index] = updated;
+            this.clearSelectedEmployeeRole();
             this.success = true;
 
             await Swal.fire({
               icon: "success",
               title: "Success",
-              text: "Position updated successfully!",
+              text: "Employee role updated successfully!",
               timer: 5000,
               showConfirmButton: true,
               timerProgressBar: true,
@@ -142,10 +124,10 @@ export const usePositionStore = defineStore("position", {
     },
 
     // Delete department options
-    async deletePosition(id) {
+    async deleteEmployeeRole(id) {
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: "This action will permanently delete this position!",
+        text: "This action will permanently delete this employee role!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -158,16 +140,16 @@ export const usePositionStore = defineStore("position", {
 
       if (result.isConfirmed) {
         try {
-          this.showLoading("Deleting position...");
-          await axios.delete(`/api/positions/${id}`);
-          this.positions = this.positions.filter((pos) => pos.id !== id);
-          this.clearSelectedPosition();
+          this.showLoading("Deleting employee role...");
+          await axios.delete(`/api/roles/${id}`);
+          this.employeeRoles = this.employeeRoles.filter((emp) => emp.id !== id);
+          this.clearSelectedEmployeeRole();
           this.success = true;
 
           await Swal.fire({
             icon: "success",
             title: "Success",
-            text: "Position deleted successfully!",
+            text: "Employee role deleted successfully!",
             timer: 5000,
             showConfirmButton: true,
             timerProgressBar: true,
@@ -191,9 +173,8 @@ export const usePositionStore = defineStore("position", {
 
     resetForm() {
       this.form = {
-        title: "",
-        level: "",
-        department_id: "",
+        name: "",
+        descriptions: "",
       };
       this.success = false;
       this.error = null;
@@ -205,15 +186,15 @@ export const usePositionStore = defineStore("position", {
     },
 
     // selected department
-    setSelectedPosition(position) {
+    setSelectedEmployeeRole(employeeRole) {
       //console.log(position)
-      this.selectedPosition = position;
+      this.selectedEmployeeRole = employeeRole;
       this.showCreateForm = true;
     },
 
     // clear selected department
-    clearSelectedPosition() {
-      this.selectedPosition = null;
+    clearSelectedEmployeeRole() {
+      this.selectedEmployeeRole = null;
       this.showCreateForm = false;
     },
 

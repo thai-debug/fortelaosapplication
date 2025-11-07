@@ -5,7 +5,6 @@ import { onMounted } from "vue";
 
 const store = usePositionStore();
 
-
 const handleCompleted = async () => {
   await store.fetchPositions();
 };
@@ -71,6 +70,9 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+          <div v-else>
+            <p>No positions found.</p>
+          </div>
         </div>
       </div>
     </div>

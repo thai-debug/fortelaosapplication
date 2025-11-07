@@ -15,7 +15,7 @@ class Employment_types extends Model
 
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'user_code', 'user_code');
+        return $this->hasMany(User::class, 'user_code');
     }
 
     public function leavePolicies(): HasMany

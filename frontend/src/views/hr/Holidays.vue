@@ -48,7 +48,7 @@ onMounted(() => {
                 <th class="text-truncate">HOLIDAY NAME</th>
                 <th class="text-truncate">FROM DATE</th>
                 <th class="text-truncate">TO DATE</th>
-                <th class="text-truncate">IS PUBLIC</th>
+                <th class="text-truncate">PUBLIC</th>
                 <th class="text-truncate">ACTIONS</th>
               </tr>
             </thead>
@@ -60,7 +60,7 @@ onMounted(() => {
                 <td>{{ holiday.name }}</td>
                 <td>{{ useDateFormat(holiday.holidays_from_date, 'DD-MM-YYYY') }}</td>
                 <td>{{ useDateFormat(holiday.holidays_to_date, 'DD-MM-YYYY') }}</td>
-                <td>{{ holiday.is_public ? 'Yes' : 'No' }}</td>
+                <td>{{ holiday.is_public ? 'Public' : 'Private' }}</td>
                 <td>
                   <span
                     class="badge bg-warning rounded-pill cursor-pointer"
@@ -71,7 +71,9 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
-          
+          <div v-else>
+            <p>No holidays found.</p>
+          </div>
         </div>
       </div>
     </div>

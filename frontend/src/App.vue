@@ -57,11 +57,11 @@ const menuItems = [
         to: '/employees',
         icon: 'ri ri-user-community-line',
       },
-      {
-        label: 'Employee Role',
-        to: '/employee-role',
-        icon: 'ri ri-role-binding',
-      },
+      // {
+      //   label: 'Employee Role',
+      //   to: '/employee-role',
+      //   icon: 'ri ri-role-binding',
+      // },
       {
         label: 'Position',
         to: '/position',

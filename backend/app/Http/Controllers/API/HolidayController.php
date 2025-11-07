@@ -54,8 +54,8 @@ class HolidayController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'holidays_from_date' => 'required|date|unique:holidays,holidays_from_date',
-            'holidays_to_date' => 'date',
+            'holidays_from_date' => 'required|date',
+            'holidays_to_date' => 'date|nullable',
             'name' => 'required|string|max:255',
             'is_public' => 'boolean',
         ]);
@@ -78,8 +78,8 @@ class HolidayController
     public function update(Request $request, Holidays $holiday)
     {
         $validated = $request->validate([
-            'holidays_from_date' => 'sometimes|required|date|unique:holidays,holidays_from_date,' . $holiday->id,
-            'holidays_to_date' => 'date',
+            'holidays_from_date' => 'sometimes|required|date',
+            'holidays_to_date' => 'date|nullable',
             'name' => 'sometimes|required|string|max:255',
             'is_public' => 'boolean',
         ]);
