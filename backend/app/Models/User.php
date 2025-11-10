@@ -40,6 +40,7 @@ class User extends Authenticatable
         'dob',
         'gender',
         'emergency_contact',
+        'address',
         'password',
         'department_id',
         'position_id',
@@ -86,10 +87,10 @@ class User extends Authenticatable
         return $this->belongsTo(Employment_types::class, 'employment_type_id');
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Roles::class, 'user_roles', 'user_code', 'role_id', 'user_code', 'id');
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Roles::class, 'user_roles', 'user_code', 'role_id', 'user_code', 'id');
+    // }
 
     public function attendanceRecords(): HasMany
     {

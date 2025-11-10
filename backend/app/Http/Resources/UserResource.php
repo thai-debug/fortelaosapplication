@@ -30,7 +30,7 @@ class UserResource extends JsonResource
             'department' => new DepartmentResource($this->whenLoaded('department')),
             'position' => new PositionResource($this->whenLoaded('position')),
             'employment_type' => new EmploymentTypeResource($this->whenLoaded('employmentType')),
-            'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            //'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

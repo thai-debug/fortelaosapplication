@@ -52,7 +52,7 @@ const deleteEmploymentType = async () => {
       <div
         class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row"
       >
-        <h5 class="card-title mb-sm-0 me-2">{{ isUpdate ? 'Update' : 'Create' }} Position</h5>
+        <h5 class="card-title mb-sm-0 me-2">{{ isUpdate ? 'Update' : 'Create' }} New Employment Type</h5>
       </div>
       <div class="card-body pt-5">
         <form @submit.prevent="submit">

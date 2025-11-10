@@ -19,8 +19,8 @@ class UserController
             $users = User::with([
                 'department',
                 'position',
-                'employmentType',
-                'roles'
+                'employmentType'
+                //'roles'
             ])->get();
             return UserResource::collection($users);
         } catch (\Exception $e) {

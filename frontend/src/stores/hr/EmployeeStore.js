@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 export const useEmployeeStore = defineStore("employee", {
   state: () => ({
     form: {
+
       first_name: "",
       last_name: "",
       user_code: "",
@@ -262,7 +263,7 @@ export const useEmployeeStore = defineStore("employee", {
       this.success = false;
       this.error = null;
 
-      await this.generateNextEmployeeCode();
+      //await this.generateNextEmployeeCode();
     },
 
     // Fetch employees

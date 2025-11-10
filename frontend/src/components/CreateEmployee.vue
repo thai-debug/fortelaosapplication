@@ -46,6 +46,7 @@ watch(
   () => store.selectedEmployee,
   (emp) => {
     if (emp) {
+
       store.form.department_id = emp.department_id,
       store.form.position_id = emp.position_id,
       store.form.employment_type_id = emp.employment_type_id,
@@ -64,6 +65,7 @@ watch(
       store.form.password_confirmation = emp.password_confirmation,
       isUpdate.value = true;
     } else {
+
       store.form.department_id = "",
       store.form.position_id = "",
       store.form.employment_type_id = "",
@@ -146,7 +148,7 @@ const deleteEmployee = async () => {
                 </div>
                 <div class="col-md-6">
                   <label for="position" class="form-label">Position</label>
-                  <select 
+                  <select
                   id="position"
                   name="position"
                   class="form-select"
@@ -353,7 +355,7 @@ const deleteEmployee = async () => {
                   <button
                     type="button"
                     class="btn btn-danger waves-effect waves-light"
-                    @click="store.deleteEmployee(store.selectedEmployee.user_code)"
+                    @click="deleteEmployee()"
                   >
                     Delete
                   </button>

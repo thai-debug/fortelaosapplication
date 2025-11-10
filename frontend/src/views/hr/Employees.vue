@@ -72,7 +72,7 @@ onMounted(() => {
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.phone }}</td>
                 <td>{{ employee.emergency_contact }}</td>
-                <td>{{ employee.address }}</td>
+                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">{{ employee.address }}</td>
                 <td>{{ employee.gender }}</td>
                 <td>{{ employee.dob }}</td>
                 <td>{{ employee.hire_date }}</td>
